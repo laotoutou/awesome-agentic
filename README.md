@@ -475,8 +475,9 @@ Agents that operate businesses eventually hit messy PDFs, scans, tables, slides,
 
 ### MinerU
 - **Link:** https://github.com/opendatalab/MinerU
-- **Why it stands out:** high-adoption document parser for PDFs, images, DOCX, PPTX, and XLSX, with Markdown/JSON outputs, layout/table/formula extraction, 109-language OCR, CLI/API/WebUI deployment, and explicit pure-CPU mode via the `pipeline` backend.
-- **Best for:** teams that need a stronger local multimodal document parser than lightweight PDF-only tools, while keeping an on-prem/self-hosted path for agentic ingestion.
+- **Why it stands out:** local document parser and agent-reading library with tiered PDF/image parsing, native Office and other document formats, Markdown/structured outputs, cached search, and stable page/block citation locators.
+- **Best for:** teams combining document conversion with incremental agent reading; choose parsing tiers and model engines for the target hardware rather than relying on legacy `pipeline` backend settings.
+- **Migration note:** the [4.1 upgrade guide](https://opendatalab.github.io/MinerU/reference/migration_4_1/) requires Python 3.11–3.14 and replaces `/v1/uploads` and `/v1/parse/jobs` with `/v1/tasks`, without compatibility aliases despite retaining the `/v1` prefix. Drain tasks and upgrade workers, Router, SDKs, and callers together. The [4.x CLI distinction](https://opendatalab.github.io/MinerU/reference/migration_4/#tiers-pages-and-outputs) also matters: `mineru parse` defaults to the first ten PDF pages; `mineru-kit parse` defaults to all pages. Last checked: 2026-11-01.
 - **License note:** MinerU uses the MinerU Open Source License, based on Apache-2.0 with additional commercial-threshold and online-service attribution conditions, so do not label it plain Apache-2.0. Last checked: 2026-05-17.
 
 ### PaddleOCR
@@ -518,6 +519,8 @@ Agents that operate businesses eventually hit messy PDFs, scans, tables, slides,
 - **Why it stands out:** source-traceable benchmark whose images and ground truth come from the same HTML/CSS sources, with clean, digitally degraded, and real-degraded tracks for text, formulas, tables, and reading order.
 - **Best for:** teams comparing parser accuracy and degradation robustness without treating noisy or saturated legacy annotations as ground truth.
 - **Evidence:** 1,475 pages, 4,425 images, 40 evaluated systems, public scoring tooling, and a correction workflow for versioned ground truth. Last checked: 2026-08-06.
+
+**Structured-extraction companion:** [Omni Extract Bench](https://github.com/datalab-to/omni_extract_bench) adds a standalone, offline deterministic scorer for schema-guided JSON extraction, separating misread, missing, fabricated, and invented fields/items with per-field verdicts. Use it on your own documents when correct business fields matter more than Markdown similarity. Its [published comparisons](https://www.datalab.to/blog/omni-extract-bench) are Datalab-run and average over provider-specific document coverage, not a neutral full-corpus ranking. Pin the corpus, schema, scorer, and adapter, and compare coverage alongside accuracy. Last checked: 2026-11-01.
 
 ---
 
