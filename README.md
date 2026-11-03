@@ -204,6 +204,7 @@ These are the strongest starting points when you need a general builder stack, n
 - **Why it stands out:** Apache-2.0 Python and TypeScript framework that pairs voice-agent orchestration with WebRTC clients, telephony, job scheduling, semantic turn detection, MCP, testing, and a self-hostable media stack.
 - **Best for:** production voice and video agents that need realtime transport, client SDKs, and runtime operations in one ecosystem.
 - **Deployment note:** self-hosting the media server and agent worker does not make inference local. [LiveKit Inference](https://docs.livekit.io/agents/models/inference/) is a Cloud service; provider plugins instead send requests directly to their configured providers. Choose model endpoints separately from transport and worker hosting. Last checked: 2026-10-03.
+- **Testing note:** [Agent Simulations](https://docs.livekit.io/testing/simulations/) require LiveKit Cloud even with a local worker; generating scenarios from source uploads code after confirmation. Text mode skips the audio pipeline, while audio mode exercises it. Tools run unchanged unless you mock them or supply isolated test backends; simulation is not a side-effect sandbox. Add final-state checks to the transcript judge before treating a passing conversation as correct execution. Last checked: 2026-11-03.
 
 ### Pipecat
 - **Link:** https://github.com/pipecat-ai/pipecat
@@ -1081,10 +1082,11 @@ Read every score as a result for a specific **benchmark release + agent harness 
 - **Evidence:** MIT-licensed harness with version-pinned Docker environments and 500 public tasks across 36 servers; the [official leaderboard](https://labs.scale.com/leaderboard/mcp_atlas) also uses 500 held-out tasks. Pin the harness, judge, tool-call budget, and task split when comparing runs; local defaults and published leaderboard methodology differ. Last checked: 2026-09-15.
 
 ### τ-voice
-- **Link:** https://arxiv.org/abs/2603.13686
-- **Why it stands out:** open, reproducible extension of τ-bench that scores 278 grounded customer-service tasks under simultaneous speech, interruptions, accents, noise, telephony degradation, and deterministic database outcomes.
+- **Link:** https://github.com/sierra-research/tau2-bench
+- **Why it stands out:** full-duplex voice evaluation for grounded customer-service agents, combining simulated callers, interruptions, accents, noise, and task-outcome checks rather than transcription accuracy alone.
 - **Best for:** testing whether realtime voice agents still complete the underlying task when clean text assumptions disappear.
-- **Scope note:** [Sierra's benchmark documentation](https://sierra.ai/blog/tau-voice-benchmarking-real-time-voice-agents-on-real-world-tasks) limits coverage to English with TTS-generated personas, gives the user simulator the agent's transcript, and does not score speech naturalness; do not treat it as multilingual or human-caller validation. Last checked: 2026-09-16.
+- **Scope note:** the [released benchmark guide](https://github.com/sierra-research/tau2-bench/blob/main/docs/running-the-benchmark.md) distinguishes English-only `voice-v1` from six-language `voice-v2` (τ-i18n), now the default for `--audio-native`. Pin the benchmark manifest, language packs, judges, and speech conditions; older English-only results are not multilingual scores. Simulated callers are not human-caller validation. Last checked: 2026-11-03.
+- **Run note:** default caller voice IDs are Sierra-internal and unusable externally. Follow the [voice setup guide](https://github.com/sierra-research/tau2-bench/blob/main/docs/voice-personas.md) and configure `TAU2_VOICE_ID_<LANG>_<PERSONA>` for the selected languages. Voice overrides are recorded and make runs non-comparable with released results; use them for development, not leaderboard-equivalent claims. Last checked: 2026-11-03.
 
 ### Artificial Analysis Speech to Speech Index
 - **Link:** https://artificialanalysis.ai/speech-to-speech
