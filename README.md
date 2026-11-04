@@ -1111,6 +1111,8 @@ Read every score as a result for a specific **benchmark release + agent harness 
 - **Why it stands out:** open benchmark for trace reasoning and agentic issue localization, with 148 human-annotated long-context traces and 841 reasoning, planning, and execution errors.
 - **Best for:** teams debugging complex agent workflows where final-answer grading hides the broken step.
 
+**Harness-reliability companion:** [TraceTrial-Bench](https://github.com/TraceLite-AI/TraceTrial-Bench) separates task success from harness behavior across 95 released tasks covering context, execution, governance, lifecycle, observability, tools, and verification. Pair it with TRAIL when evaluating the runtime itself rather than a model's ability to diagnose existing traces. The [October 2026 research study](https://arxiv.org/abs/2610.32285) combines executable/state-based evidence with LLM judging across four harnesses; it is not deterministic-only scoring or production certification. Pin the task manifest, harness, model, and judge, and inspect both score layers rather than selecting a runtime from aggregate rankings. Last checked: 2026-11-04.
+
 ### π-Bench
 - **Link:** https://github.com/Simplified-Reasoning/Pi-Bench
 - **Why it stands out:** evaluates proactive personal assistants on 100 multi-turn tasks across five personas, with hidden intents, inter-task dependencies, persistent workspaces, and separate proactivity and completeness scores.
